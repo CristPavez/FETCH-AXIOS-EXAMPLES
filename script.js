@@ -1,21 +1,36 @@
 import 'regenerator-runtime/runtime';
 import axios from 'axios';
 //npm run dev
+class Personajes {
+    constructor(_nombre, _especie, _imagen, _id) {
+        this.nombre = _nombre;
+        this.especie = _especie;
+        this.imagen = _imagen;
+        this.id = _id;
+    }
+    Mostrar() {
+        var Personajes = [this.imagen, this.nombre, this.especie, this.id];
+        show(Personajes); //funcion show para ingresar los datos
+    }
+}
 //SOLICITA LA INFORMACION PIDIENDO UNA URL
 async function api() {
     try {
-        const api_url = "https://pokeapi.co/api/v2/pokemon/";
+        const api_url = "https://rickandmortyapi.com/api/character";
         var response = await fetch(api_url);
         var data = await response.json();
         try {
             for (let i = 0; i < data.results.length; i++) {
-                var url = data.results[i].url;
-                const response = await axios.get(url);
+                const response = await axios.get(api_url); //consulta otravez la url anterior
                 var data2 = response.data;
-                var sprites = data2.sprites.front_default;
-                var name = data2.species.name;
-                var array = [name, sprites];
-                show(array)
+                //Datos
+                var id = data2.results[i].id;
+                var name = data2.results[i].name;
+                var especie = data2.results[i].species;
+                var imagen = data2.results[i].image;
+                // ingresa datos del api
+                let list = new Personajes(name, especie, imagen, id);
+                list.Mostrar(); //get del class
             }
         } catch (error) {
             console.log(error + ' | Error en la API AXIOS')
@@ -23,16 +38,15 @@ async function api() {
     } catch (error) { console.log(error + ' | Error en la API FETCH') }
 }
 
-
 api()
 
-
-function show(data) {
+function show(Personajes) {
     let tab =
         `<div class="card">
-    <img src="${[data[1]]}"></img>
-    <h1>${[data[0]]}</h1>
+        <h1>${[Personajes[3]]}</h1>
+    <img src="${[Personajes[0]]}"></img>
+    <h1>${[Personajes[1]]}</h1>
+    <h1>${[Personajes[2]]}</h1>
 </div>`;
-
     document.getElementById("container-grid").innerHTML += tab;
 }

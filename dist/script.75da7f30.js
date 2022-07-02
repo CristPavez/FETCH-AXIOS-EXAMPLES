@@ -2691,22 +2691,49 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
 //npm run dev
-//SOLICITA LA INFORMACION PIDIENDO UNA URL
+var Personajes = /*#__PURE__*/function () {
+  function Personajes(_nombre, _especie, _imagen, _id) {
+    _classCallCheck(this, Personajes);
+
+    this.nombre = _nombre;
+    this.especie = _especie;
+    this.imagen = _imagen;
+    this.id = _id;
+  }
+
+  _createClass(Personajes, [{
+    key: "Mostrar",
+    value: function Mostrar() {
+      var _Personajes = [this.imagen, this.nombre, this.especie, this.id];
+      show(_Personajes); //funcion show para ingresar los datos
+    }
+  }]);
+
+  return Personajes;
+}(); //SOLICITA LA INFORMACION PIDIENDO UNA URL
+
+
 function api() {
   return _api.apply(this, arguments);
 }
 
 function _api() {
   _api = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-    var api_url, response, data, i, url, _response, data2, sprites, name, array;
+    var api_url, response, data, i, _response, data2, id, name, especie, imagen, list;
 
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            api_url = "https://pokeapi.co/api/v2/pokemon/";
+            api_url = "https://rickandmortyapi.com/api/character";
             _context.next = 4;
             return fetch(api_url);
 
@@ -2722,59 +2749,63 @@ function _api() {
 
           case 10:
             if (!(i < data.results.length)) {
-              _context.next = 23;
+              _context.next = 24;
               break;
             }
 
-            url = data.results[i].url;
-            _context.next = 14;
-            return _axios.default.get(url);
+            _context.next = 13;
+            return _axios.default.get(api_url);
 
-          case 14:
+          case 13:
             _response = _context.sent;
-            data2 = _response.data;
-            sprites = data2.sprites.front_default;
-            name = data2.species.name;
-            array = [name, sprites];
-            show(array);
+            //consulta otravez la url anterior
+            data2 = _response.data; //Datos
 
-          case 20:
+            id = data2.results[i].id;
+            name = data2.results[i].name;
+            especie = data2.results[i].species;
+            imagen = data2.results[i].image; // ingresa datos del api
+
+            list = new Personajes(name, especie, imagen, id);
+            list.Mostrar(); //get del class
+
+          case 21:
             i++;
             _context.next = 10;
             break;
 
-          case 23:
-            _context.next = 28;
+          case 24:
+            _context.next = 29;
             break;
 
-          case 25:
-            _context.prev = 25;
+          case 26:
+            _context.prev = 26;
             _context.t0 = _context["catch"](8);
             console.log(_context.t0 + ' | Error en la API AXIOS');
 
-          case 28:
-            _context.next = 33;
+          case 29:
+            _context.next = 34;
             break;
 
-          case 30:
-            _context.prev = 30;
+          case 31:
+            _context.prev = 31;
             _context.t1 = _context["catch"](0);
             console.log(_context.t1 + ' | Error en la API FETCH');
 
-          case 33:
+          case 34:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 30], [8, 25]]);
+    }, _callee, null, [[0, 31], [8, 26]]);
   }));
   return _api.apply(this, arguments);
 }
 
 api();
 
-function show(data) {
-  var tab = "<div class=\"card\">\n    <img src=\"".concat([data[1]], "\"></img>\n    <h1>").concat([data[0]], "</h1>\n</div>");
+function show(Personajes) {
+  var tab = "<div class=\"card\">\n        <h1>".concat([Personajes[3]], "</h1>\n    <img src=\"").concat([Personajes[0]], "\"></img>\n    <h1>").concat([Personajes[1]], "</h1>\n    <h1>").concat([Personajes[2]], "</h1>\n</div>");
   document.getElementById("container-grid").innerHTML += tab;
 }
 },{"regenerator-runtime/runtime":"node_modules/regenerator-runtime/runtime.js","axios":"node_modules/axios/index.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
@@ -2805,7 +2836,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61320" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63526" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
